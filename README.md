@@ -10,4 +10,12 @@ npm install graphology-components
 
 ## Usage
 
-WIP...
+### Connected components
+
+Returns the list of connected components of the given graph.
+
+```js
+import connectedComponents from 'graphology-components';
+
+const components = connectedComponents(graph);
+```
