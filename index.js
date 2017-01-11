@@ -70,6 +70,9 @@ exports.stronglyConnectedComponents = function(graph) {
   if (!graph.order)
     return [];
 
+  if (graph.type === 'undirected')
+    throw new Error('graphology-components: the given graph is undirected');
+
   var nodes = graph.nodes();
 
   if (!graph.size)
@@ -91,7 +94,7 @@ exports.stronglyConnectedComponents = function(graph) {
     P.push(node);
     S.push(node);
 
-    graph.outNeighbors(node).forEach(function(neighbor) {
+    graph.outboundNeighbors(node).forEach(function(neighbor) {
       if (preorder.has(neighbor)) {
         neighbOrder = preorder.get(neighbor);
         if (!assigned.has(neighbor))
@@ -113,6 +116,10 @@ exports.stronglyConnectedComponents = function(graph) {
     }
   }
 
-  DFS(nodes[0]);
+  nodes.forEach(function(node) {
+    if (!assigned.has(node)) {
+      DFS(node);
+    }
+  });
   return components;
 }

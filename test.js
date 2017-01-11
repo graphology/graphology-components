@@ -68,7 +68,49 @@ describe('graphology-components', function() {
       assert.deepEqual(stronglyConnectedComponents(graph), [1, 2, 3]);
     });
 
-    it('should return the correct components.', function() {
+    it('should throw if the graph is undirected', function() {
+      var graph = new Graph(null, {type: 'undirected'});
+      graph.addNodesFrom([1, 2]);
+      graph.addEdge(1, 2);
+
+      assert.throws(function() {
+        stronglyConnectedComponents(graph);
+      }, /graphology/);
+    });
+
+    it('should return the correct components. (mixed edges)', function() {
+      var graph = new Graph();
+      graph.addNodesFrom([1, 2, 3, 4]);
+
+      graph.addDirectedEdge(1, 2);
+      graph.addUndirectedEdge(2, 3);
+      graph.addDirectedEdge(3, 4);
+      graph.addDirectedEdge(4, 2);
+
+      var components = stronglyConnectedComponents(graph);
+      components.sort(function(a, b) { return a[0] - b[0] })
+        .forEach(function(c) { c.sort(function(a, b) { return a -b; }); });
+
+      assert.deepEqual(components, [['1'], ['2', '3', '4']]);
+    });
+
+    it('should return the correct components. (simple directed graph)', function() {
+      var graph = new Graph();
+      graph.addNodesFrom([1, 2, 3])
+
+      graph.addDirectedEdge(1, 2);
+      graph.addDirectedEdge(2, 1);
+      graph.addDirectedEdge(3, 1);
+
+      var components = stronglyConnectedComponents(graph);
+
+      components.sort(function(a, b) { return a[0] - b[0] })
+        .forEach(function(c) { c.sort(function(a, b) { return a -b; }); });
+
+      assert.deepEqual(components, [['1', '2'], ['3']]);
+    });
+
+    it('should return the correct components. (disjointed components)', function() {
       var graph = new Graph();
       graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7, 8])
 
@@ -80,8 +122,6 @@ describe('graphology-components', function() {
 
       graph.addDirectedEdge(4, 5);
       graph.addDirectedEdge(5, 4);
-
-      graph.addDirectedEdge(5, 6);
 
       graph.addDirectedEdge(6, 7);
       graph.addDirectedEdge(7, 8);
@@ -95,6 +135,7 @@ describe('graphology-components', function() {
       components.sort(function(a, b) { return a[0] - b[0] });
       assert.deepEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
     });
+
   });
 
 });
