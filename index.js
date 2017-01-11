@@ -76,7 +76,7 @@ exports.stronglyConnectedComponents = function(graph) {
   var nodes = graph.nodes();
 
   if (!graph.size)
-    return nodes;
+    return nodes.map(function(node) { return [node]; });
 
   var count = 1,
     P = [],

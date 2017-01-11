@@ -65,7 +65,7 @@ describe('graphology-components', function() {
       var graph = new Graph();
       graph.addNodesFrom([1, 2, 3]);
 
-      assert.deepEqual(stronglyConnectedComponents(graph), [1, 2, 3]);
+      assert.deepEqual(stronglyConnectedComponents(graph), [[1], [2], [3]]);
     });
 
     it('should throw if the graph is undirected', function() {
