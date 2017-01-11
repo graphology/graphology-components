@@ -9,6 +9,18 @@ var assert = require('assert'),
 var connectedComponents = lib.connectedComponents,
   stronglyConnectedComponents = lib.stronglyConnectedComponents;
 
+var sortComponents = function(components) {
+  components.forEach(function(c) {
+    c.sort(function(a, b) {
+      return a - b;
+    });
+  });
+  components.sort(function(a, b) {
+    return a[0] - b[0];
+  });
+  return components;
+};
+
 describe('graphology-components', function() {
 
   describe('#.connectedComponents', function() {
@@ -88,31 +100,26 @@ describe('graphology-components', function() {
       graph.addDirectedEdge(4, 2);
 
       var components = stronglyConnectedComponents(graph);
-      components.sort(function(a, b) { return a[0] - b[0] })
-        .forEach(function(c) { c.sort(function(a, b) { return a -b; }); });
-
+      components = sortComponents(components);
       assert.deepEqual(components, [['1'], ['2', '3', '4']]);
     });
 
     it('should return the correct components. (simple directed graph)', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3])
+      graph.addNodesFrom([1, 2, 3]);
 
       graph.addDirectedEdge(1, 2);
       graph.addDirectedEdge(2, 1);
       graph.addDirectedEdge(3, 1);
 
       var components = stronglyConnectedComponents(graph);
-
-      components.sort(function(a, b) { return a[0] - b[0] })
-        .forEach(function(c) { c.sort(function(a, b) { return a -b; }); });
-
+      components = sortComponents(components);
       assert.deepEqual(components, [['1', '2'], ['3']]);
     });
 
     it('should return the correct components. (disjointed components)', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7, 8])
+      graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7, 8]);
 
       graph.addDirectedEdge(1, 2);
       graph.addDirectedEdge(2, 3);
@@ -128,11 +135,7 @@ describe('graphology-components', function() {
       graph.addDirectedEdge(8, 6);
 
       var components = stronglyConnectedComponents(graph);
-
-      components.forEach(function(c) {
-        c.sort(function(a, b) { return a - b; });
-      });
-      components.sort(function(a, b) { return a[0] - b[0] });
+      components = sortComponents(components);
       assert.deepEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
     });
 
