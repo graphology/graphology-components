@@ -21,7 +21,7 @@ function connectedComponents(graph) {
     return [];
 
   if (!graph.size)
-    return graph.nodes();
+    return graph.nodes().map(function(node) { return [node]; });
 
   var components = [],
       component,
