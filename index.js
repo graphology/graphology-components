@@ -6,14 +6,13 @@
  */
 var isGraph = require('graphology-utils/is-graph');
 
-
 /**
  * Function returning a list of connected components.
  *
  * @param  {Graph} graph - Target graph.
  * @return {array}
  */
-function connectedComponents(graph) {
+exports.connectedComponents = function(graph) {
   if (!isGraph(graph))
     throw new Error('graphology-components: the given graph is not a valid graphology instance.');
 
@@ -56,6 +55,64 @@ function connectedComponents(graph) {
   }
 
   return components;
-}
+};
 
-module.exports = connectedComponents;
+/**
+ * Function returning a list of strongly connected components.
+ *
+ * @param  {Graph} graph - Target directed graph.
+ * @return {array}
+ */
+exports.stronglyConnectedComponents = function(graph) {
+  if (!isGraph(graph))
+    throw new Error('graphology-components: the given graph is not a valid graphology instance.');
+
+  if (!graph.order)
+    return [];
+
+  var nodes = graph.nodes();
+
+  if (!graph.size)
+    return nodes;
+
+  var count = 1,
+    P = [],
+    S = [],
+    preorder = new Map(),
+    assigned = new Set(),
+    components = [],
+    component,
+    node,
+    pop,
+    neighbOrder;
+
+  var DFS = function(node) {
+    preorder.set(node, count++);
+    P.push(node);
+    S.push(node);
+
+    graph.outNeighbors(node).forEach(function(neighbor) {
+      if (preorder.has(neighbor)) {
+        neighbOrder = preorder.get(neighbor);
+        if (!assigned.has(neighbor))
+          while (preorder.get(P[P.length - 1]) > neighbOrder)
+            P.pop();
+      } else
+        DFS(neighbor);
+    });
+
+    if (preorder.get(P[P.length - 1]) === preorder.get(node)) {
+      component = [];
+      do {
+        pop = S.pop();
+        component.push(pop);
+        assigned.add(pop);
+      } while (pop !== node);
+      components.push(component);
+      P.pop();
+    }
+  }
+
+  DFS(nodes[0]);
+  return components;
+}
