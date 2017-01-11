@@ -20,18 +20,22 @@ function connectedComponents(graph) {
   if (!graph.order)
     return [];
 
-  if (!graph.size)
-    return graph.nodes();
-
   var components = [],
-      component,
-      stack = [],
       nodes = graph.nodes(),
+      i, l;
+
+  if (!graph.size) {
+    for (i = 0, l = nodes.length; i < l; i++) {
+      components.push([nodes[i]]);
+    }
+    return components;
+  }
+
+  var component,
+      stack = [],
       node,
       neighbor,
-      visited = new Set(),
-      i,
-      l;
+      visited = new Set();
 
   for (i = 0, l = nodes.length; i < l; i++) {
     node = nodes[i];
