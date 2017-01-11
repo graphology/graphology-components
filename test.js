@@ -27,7 +27,7 @@ describe('graphology-components', function() {
       var graph = new Graph();
       graph.addNodesFrom([1, 2, 3]);
 
-      assert.deepEqual(connectedComponents(graph), [1, 2, 3]);
+      assert.deepEqual(connectedComponents(graph), [[1], [2], [3]]);
     });
 
     it('should return the correct components.', function() {
