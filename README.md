@@ -22,7 +22,7 @@ const components = connectedComponents(graph);
 
 ### Strongly connected components
 
-Returns the list of strongly connected componnents of the given graph (mixed or directed)
+Returns the list of strongly connected components of the given graph (mixed or directed)
 
 ```js
 import {stronglyConnectedComponents} from 'graphology-components';
