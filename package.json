@@ -38,7 +38,8 @@
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
     "globals": {
-      "Set": true
+      "Set": true,
+      "Map": true
     }
   },
   "dependencies": {
