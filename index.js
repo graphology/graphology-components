@@ -76,7 +76,9 @@ exports.stronglyConnectedComponents = function(graph) {
   var nodes = graph.nodes();
 
   if (!graph.size)
-    return nodes.map(function(node) { return [node]; });
+    return nodes.map(function(node) {
+      return [node];
+    });
 
   var count = 1,
     P = [],
@@ -85,7 +87,6 @@ exports.stronglyConnectedComponents = function(graph) {
     assigned = new Set(),
     components = [],
     component,
-    node,
     pop,
     neighbOrder;
 
@@ -100,7 +101,8 @@ exports.stronglyConnectedComponents = function(graph) {
         if (!assigned.has(neighbor))
           while (preorder.get(P[P.length - 1]) > neighbOrder)
             P.pop();
-      } else
+      }
+      else
         DFS(neighbor);
     });
 
@@ -114,7 +116,7 @@ exports.stronglyConnectedComponents = function(graph) {
       components.push(component);
       P.pop();
     }
-  }
+  };
 
   nodes.forEach(function(node) {
     if (!assigned.has(node)) {
@@ -122,4 +124,4 @@ exports.stronglyConnectedComponents = function(graph) {
     }
   });
   return components;
-}
+};
