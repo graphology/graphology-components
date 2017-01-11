@@ -73,21 +73,27 @@ exports.stronglyConnectedComponents = function(graph) {
   if (graph.type === 'undirected')
     throw new Error('graphology-components: the given graph is undirected');
 
-  var nodes = graph.nodes();
+  var nodes = graph.nodes(),
+    components = [],
+    i, l;
 
-  if (!graph.size)
-    return nodes.map(function(node) {
-      return [node];
-    });
+  if (!graph.size) {
+    for (i = 0, l = nodes.length; i < l; i++) {
+      components.push([nodes[i]]);
+    }
+    return components;
+  }
 
   var count = 1,
     P = [],
     S = [],
     preorder = new Map(),
     assigned = new Set(),
-    components = [],
     component,
     pop,
+    vertice,
+    neighbor,
+    neighbors,
     neighbOrder;
 
   var DFS = function(node) {
@@ -95,7 +101,11 @@ exports.stronglyConnectedComponents = function(graph) {
     P.push(node);
     S.push(node);
 
-    graph.outboundNeighbors(node).forEach(function(neighbor) {
+    neighbors = graph.outboundNeighbors(node);
+
+    for (var k = 0, n = neighbors.length; k < n; k++) {
+      neighbor = neighbors[k];
+
       if (preorder.has(neighbor)) {
         neighbOrder = preorder.get(neighbor);
         if (!assigned.has(neighbor))
@@ -104,7 +114,7 @@ exports.stronglyConnectedComponents = function(graph) {
       }
       else
         DFS(neighbor);
-    });
+    }
 
     if (preorder.get(P[P.length - 1]) === preorder.get(node)) {
       component = [];
@@ -118,10 +128,12 @@ exports.stronglyConnectedComponents = function(graph) {
     }
   };
 
-  nodes.forEach(function(node) {
-    if (!assigned.has(node)) {
-      DFS(node);
+  for (i = 0, l = nodes.length; i < l; i++) {
+    vertice = nodes[i];
+    if (!assigned.has(vertice)) {
+      DFS(vertice);
     }
-  });
+  }
+
   return components;
 };

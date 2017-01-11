@@ -7,7 +7,7 @@ var assert = require('assert'),
     lib = require('./');
 
 var connectedComponents = lib.connectedComponents,
-  stronglyConnectedComponents = lib.stronglyConnectedComponents;
+    stronglyConnectedComponents = lib.stronglyConnectedComponents;
 
 var sortComponents = function(components) {
   components.forEach(function(c) {
