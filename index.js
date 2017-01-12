@@ -74,27 +74,26 @@ exports.stronglyConnectedComponents = function(graph) {
     throw new Error('graphology-components: the given graph is undirected');
 
   var nodes = graph.nodes(),
-    components = [],
-    i, l;
+      components = [],
+      i, l;
 
   if (!graph.size) {
-    for (i = 0, l = nodes.length; i < l; i++) {
+    for (i = 0, l = nodes.length; i < l; i++)
       components.push([nodes[i]]);
-    }
     return components;
   }
 
   var count = 1,
-    P = [],
-    S = [],
-    preorder = new Map(),
-    assigned = new Set(),
-    component,
-    pop,
-    vertice,
-    neighbor,
-    neighbors,
-    neighbOrder;
+      P = [],
+      S = [],
+      preorder = new Map(),
+      assigned = new Set(),
+      component,
+      pop,
+      vertice,
+      neighbor,
+      neighbors,
+      neighbOrder;
 
   var DFS = function(node) {
     preorder.set(node, count++);
@@ -130,9 +129,8 @@ exports.stronglyConnectedComponents = function(graph) {
 
   for (i = 0, l = nodes.length; i < l; i++) {
     vertice = nodes[i];
-    if (!assigned.has(vertice)) {
+    if (!assigned.has(vertice))
       DFS(vertice);
-    }
   }
 
   return components;
