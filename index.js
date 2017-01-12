@@ -90,17 +90,16 @@ exports.stronglyConnectedComponents = function(graph) {
       assigned = new Set(),
       component,
       pop,
-      vertice,
-      neighbor,
-      neighbors,
-      neighbOrder;
+      vertice;
 
   var DFS = function(node) {
+    var neighbor,
+        neighbors = graph.outNeighbors(node).concat(graph.undirectedNeighbors(node)),
+        neighbOrder;
+
     preorder.set(node, count++);
     P.push(node);
     S.push(node);
-
-    neighbors = graph.outboundNeighbors(node);
 
     for (var k = 0, n = neighbors.length; k < n; k++) {
       neighbor = neighbors[k];
