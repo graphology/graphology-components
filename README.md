@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/graphology/graphology-components.svg)](https://travis-ci.org/graphology/graphology-components)
+
 # Graphology Components
 
 Connected components for [`graphology`](https://graphology.github.io).
