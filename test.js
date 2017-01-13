@@ -18,7 +18,6 @@ var sortComponents = function(components) {
   components.sort(function(a, b) {
     return a[0] - b[0];
   });
-  return components;
 };
 
 describe('graphology-components', function() {
@@ -100,7 +99,7 @@ describe('graphology-components', function() {
       graph.addDirectedEdge(4, 2);
 
       var components = stronglyConnectedComponents(graph);
-      components = sortComponents(components);
+      sortComponents(components);
       assert.deepEqual(components, [['1'], ['2', '3', '4']]);
     });
 
@@ -113,7 +112,7 @@ describe('graphology-components', function() {
       graph.addDirectedEdge(3, 1);
 
       var components = stronglyConnectedComponents(graph);
-      components = sortComponents(components);
+      sortComponents(components);
       assert.deepEqual(components, [['1', '2'], ['3']]);
     });
 
@@ -135,7 +134,8 @@ describe('graphology-components', function() {
       graph.addDirectedEdge(8, 6);
 
       var components = stronglyConnectedComponents(graph);
-      components = sortComponents(components);
+      sortComponents(components);
+
       assert.deepEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
     });
 
