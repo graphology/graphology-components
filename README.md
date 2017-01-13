@@ -10,6 +10,9 @@ npm install graphology-components
 
 ## Usage
 
+* [Connected components](#connected-components)
+* [Strongly connected components](#strongly-connected-components)
+
 ### Connected components
 
 Returns the list of connected components of the given graph.
@@ -19,6 +22,7 @@ import {connectedComponents} from 'graphology-components';
 
 const components = connectedComponents(graph);
 ```
+
 If `graph` is a mixed or directed graph, the result will be the list of **weakly connected components.**
 
 ### Strongly connected components
