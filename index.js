@@ -90,12 +90,12 @@ exports.stronglyConnectedComponents = function(graph) {
       assigned = new Set(),
       component,
       pop,
-      vertice;
+      vertex;
 
   var DFS = function(node) {
     var neighbor,
         neighbors = graph.outNeighbors(node).concat(graph.undirectedNeighbors(node)),
-        neighbOrder;
+        neighborOrder;
 
     preorder.set(node, count++);
     P.push(node);
@@ -105,9 +105,9 @@ exports.stronglyConnectedComponents = function(graph) {
       neighbor = neighbors[k];
 
       if (preorder.has(neighbor)) {
-        neighbOrder = preorder.get(neighbor);
+        neighborOrder = preorder.get(neighbor);
         if (!assigned.has(neighbor))
-          while (preorder.get(P[P.length - 1]) > neighbOrder)
+          while (preorder.get(P[P.length - 1]) > neighborOrder)
             P.pop();
       }
       else
@@ -127,9 +127,9 @@ exports.stronglyConnectedComponents = function(graph) {
   };
 
   for (i = 0, l = nodes.length; i < l; i++) {
-    vertice = nodes[i];
-    if (!assigned.has(vertice))
-      DFS(vertice);
+    vertex = nodes[i];
+    if (!assigned.has(vertex))
+      DFS(vertex);
   }
 
   return components;
