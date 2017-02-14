@@ -80,7 +80,7 @@ describe('graphology-components', function() {
     });
 
     it('should throw if the graph is undirected', function() {
-      var graph = new Graph(null, {type: 'undirected'});
+      var graph = new Graph({type: 'undirected'});
       graph.addNodesFrom([1, 2]);
       graph.addEdge(1, 2);
 
