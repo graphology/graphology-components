@@ -56,6 +56,17 @@ describe('graphology-components', function() {
       var components = connectedComponents(graph);
       assert.deepEqual(components, [['1', '2', '4', '3'], ['5', '6'], ['7']]);
     });
+
+    it('should also work with self loops.', function() {
+      var graph = new Graph();
+      graph.addNodesFrom([1, 2, 3]);
+      graph.addEdge(1, 2);
+      graph.addEdge(1, 1);
+
+      var components = connectedComponents(graph);
+
+      assert.deepEqual(components, [[1, 2], [3]]);
+    });
   });
 
   describe('#.stronglyConnectedComponents', function() {
