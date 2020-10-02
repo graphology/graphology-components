@@ -4,6 +4,11 @@
  */
 var assert = require('assert'),
     Graph = require('graphology'),
+    erdosRenyi = require('graphology-generators/random/erdos-renyi'),
+    disjointUnion = require('graphology-operators/disjoint-union'),
+    range = require('lodash/range'),
+    random = require('pandemonium/random'),
+    sortBy = require('lodash/sortBy'),
     lib = require('./');
 
 var connectedComponents = lib.connectedComponents,
@@ -119,6 +124,24 @@ describe('graphology-components', function() {
       var component = largestConnectedComponent(graph);
 
       assert.deepStrictEqual(component, ['1', '2']);
+    });
+
+    it('should return correct results.', function() {
+      var graph = range(8)
+        .map(function() {
+          return erdosRenyi.sparse(Graph.UndirectedGraph, {order: random(10, 100), probability: 0.05});
+        })
+        .reduce(function(a, b) {
+          return disjointUnion(a, b);
+        });
+
+      var components = sortBy(connectedComponents(graph), function(c) {
+        return c.length;
+      }).reverse();
+
+      var largestComponent = largestConnectedComponent(graph);
+
+      assert.deepStrictEqual(components[0], largestComponent);
     });
   });
 
