@@ -78,6 +78,9 @@ exports.largestConnectedComponent = function(graph) {
   if (!graph.size)
     return [graph.nodes()[0]];
 
+  var order = graph.order;
+  var remaining;
+
   var seen = new Set();
   var largestComponent = [];
   var stack = [];
@@ -110,6 +113,12 @@ exports.largestConnectedComponent = function(graph) {
 
     if (component.length > largestComponent.length)
       largestComponent = component;
+
+    // Early exit condition
+    // NOTE: could be done each time we traverse a node but would complexify
+    remaining = order - seen.size;
+    if (largestComponent.length > Math.ceil(remaining / 2))
+      return largestComponent;
   }
 
   return largestComponent;

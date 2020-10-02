@@ -9,6 +9,8 @@ var assert = require('assert'),
     range = require('lodash/range'),
     random = require('pandemonium/random'),
     sortBy = require('lodash/sortBy'),
+    takeWhile = require('lodash/takeWhile'),
+    isEqual = require('lodash/isEqual'),
     lib = require('./');
 
 var connectedComponents = lib.connectedComponents,
@@ -139,9 +141,15 @@ describe('graphology-components', function() {
         return c.length;
       }).reverse();
 
+      components = takeWhile(components, function(c) {
+        return c.length === components[0].length;
+      });
+
       var largestComponent = largestConnectedComponent(graph);
 
-      assert.deepStrictEqual(components[0], largestComponent);
+      assert(components.some(function(c) {
+        return isEqual(c, largestComponent);
+      }));
     });
   });
 
