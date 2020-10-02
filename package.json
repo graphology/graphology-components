@@ -31,10 +31,10 @@
   },
   "homepage": "https://github.com/graphology/graphology-components#readme",
   "devDependencies": {
-    "@yomguithereal/eslint-config": "^3.0.0",
-    "eslint": "^3.5.0",
+    "@yomguithereal/eslint-config": "^4.0.0",
+    "eslint": "^7.10.0",
     "graphology": "^0.17.1",
-    "mocha": "^3.0.2"
+    "mocha": "^8.1.3"
   },
   "eslintConfig": {
     "extends": "@yomguithereal/eslint-config",
@@ -44,6 +44,6 @@
     }
   },
   "dependencies": {
-    "graphology-utils": "^1.1.1"
+    "graphology-utils": "^1.7.0"
   }
 }
