@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "lint": "eslint *.js",
+    "prepublish": "npm run lint && npm test",
     "test": "mocha test.js"
   },
   "repository": {
@@ -32,7 +33,7 @@
   "devDependencies": {
     "@yomguithereal/eslint-config": "^3.0.0",
     "eslint": "^3.5.0",
-    "graphology": "0.10.0",
+    "graphology": "^0.17.1",
     "mocha": "^3.0.2"
   },
   "eslintConfig": {

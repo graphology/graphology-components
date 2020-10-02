@@ -20,6 +20,12 @@ var sortComponents = function(components) {
   });
 };
 
+function addNodesFrom(graph, nodes) {
+  nodes.forEach(function(node) {
+    graph.addNode(node);
+  });
+}
+
 describe('graphology-components', function() {
 
   describe('#.connectedComponents', function() {
@@ -38,14 +44,14 @@ describe('graphology-components', function() {
 
     it('should handle graphs without edges.', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3]);
+      addNodesFrom(graph, [1, 2, 3]);
 
       assert.deepEqual(connectedComponents(graph), [[1], [2], [3]]);
     });
 
     it('should return the correct components.', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7]);
+      addNodesFrom(graph, [1, 2, 3, 4, 5, 6, 7]);
       graph.addEdge(1, 2);
       graph.addEdge(2, 3);
       graph.addEdge(3, 4);
@@ -59,7 +65,7 @@ describe('graphology-components', function() {
 
     it('should also work with self loops.', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3]);
+      addNodesFrom(graph, [1, 2, 3]);
       graph.addEdge(1, 2);
       graph.addEdge(1, 1);
 
@@ -85,14 +91,14 @@ describe('graphology-components', function() {
 
     it('should handle graphs without edges.', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3]);
+      addNodesFrom(graph, [1, 2, 3]);
 
       assert.deepEqual(stronglyConnectedComponents(graph), [[1], [2], [3]]);
     });
 
     it('should throw if the graph is undirected', function() {
       var graph = new Graph({type: 'undirected'});
-      graph.addNodesFrom([1, 2]);
+      addNodesFrom(graph, [1, 2]);
       graph.addEdge(1, 2);
 
       assert.throws(function() {
@@ -102,7 +108,7 @@ describe('graphology-components', function() {
 
     it('should return the correct components. (mixed edges)', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3, 4]);
+      addNodesFrom(graph, [1, 2, 3, 4]);
 
       graph.addDirectedEdge(1, 2);
       graph.addUndirectedEdge(2, 3);
@@ -116,7 +122,7 @@ describe('graphology-components', function() {
 
     it('should return the correct components. (simple directed graph)', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3]);
+      addNodesFrom(graph, [1, 2, 3]);
 
       graph.addDirectedEdge(1, 2);
       graph.addDirectedEdge(2, 1);
@@ -129,7 +135,7 @@ describe('graphology-components', function() {
 
     it('should return the correct components. (disjointed components)', function() {
       var graph = new Graph();
-      graph.addNodesFrom([1, 2, 3, 4, 5, 6, 7, 8]);
+      addNodesFrom(graph, [1, 2, 3, 4, 5, 6, 7, 8]);
 
       graph.addDirectedEdge(1, 2);
       graph.addDirectedEdge(2, 3);
@@ -149,7 +155,5 @@ describe('graphology-components', function() {
 
       assert.deepEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
     });
-
   });
-
 });
