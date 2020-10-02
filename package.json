@@ -4,6 +4,7 @@
   "description": "Connected components for graphology.",
   "main": "index.js",
   "files": [
+    "*.d.ts",
     "index.js"
   ],
   "scripts": {
@@ -44,6 +45,7 @@
     }
   },
   "dependencies": {
+    "graphology-types": "^0.17.0",
     "graphology-utils": "^1.7.0"
   }
 }
