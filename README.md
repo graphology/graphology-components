@@ -12,10 +12,11 @@ npm install graphology-components
 
 ## Usage
 
-* [Connected components](#connected-components)
-* [Strongly connected components](#strongly-connected-components)
+* [connectedComponents](#connectedcomponents)
+* [largestConnectedComponent](#largestconnectedcomponent)
+* [stronglyConnectedComponents](#stronglyconnectedcomponents)
 
-### Connected components
+### connectedComponents
 
 Returns the list of connected components of the given graph.
 
@@ -25,9 +26,19 @@ import {connectedComponents} from 'graphology-components';
 const components = connectedComponents(graph);
 ```
 
-If `graph` is a mixed or directed graph, the result will be the list of **weakly connected components.**
+If `graph` is a mixed or directed, the result will be the list of **weakly connected components.**
 
-### Strongly connected components
+### largestConnectedComponent
+
+Returns the largest connected component of the given graph.
+
+```js
+import {largestConnectedComponent} from 'graphology-components';
+
+const largest = largestConnectedComponent(graph);
+```
+
+### stronglyConnectedComponents
 
 Returns the list of strongly connected components of the given graph. (mixed or directed)
 

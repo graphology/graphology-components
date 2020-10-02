@@ -7,6 +7,7 @@ var assert = require('assert'),
     lib = require('./');
 
 var connectedComponents = lib.connectedComponents,
+    largestConnectedComponent = lib.largestConnectedComponent,
     stronglyConnectedComponents = lib.stronglyConnectedComponents;
 
 var sortComponents = function(components) {
@@ -39,14 +40,14 @@ describe('graphology-components', function() {
     it('should handle empty graphs.', function() {
       var graph = new Graph();
 
-      assert.deepEqual(connectedComponents(graph), []);
+      assert.deepStrictEqual(connectedComponents(graph), []);
     });
 
     it('should handle graphs without edges.', function() {
       var graph = new Graph();
       addNodesFrom(graph, [1, 2, 3]);
 
-      assert.deepEqual(connectedComponents(graph), [[1], [2], [3]]);
+      assert.deepStrictEqual(connectedComponents(graph), [['1'], ['2'], ['3']]);
     });
 
     it('should return the correct components.', function() {
@@ -60,7 +61,7 @@ describe('graphology-components', function() {
       graph.addEdge(5, 6);
 
       var components = connectedComponents(graph);
-      assert.deepEqual(components, [['1', '2', '4', '3'], ['5', '6'], ['7']]);
+      assert.deepStrictEqual(components, [['1', '2', '4', '3'], ['5', '6'], ['7']]);
     });
 
     it('should also work with self loops.', function() {
@@ -71,7 +72,53 @@ describe('graphology-components', function() {
 
       var components = connectedComponents(graph);
 
-      assert.deepEqual(components, [[1, 2], [3]]);
+      assert.deepStrictEqual(components, [['1', '2'], ['3']]);
+    });
+  });
+
+  describe('#.largestConnectedComponent', function() {
+    it('should throw if given an invalid graph.', function() {
+      assert.throws(function() {
+        largestConnectedComponent(null);
+      }, /graphology/);
+    });
+
+    it('should handle empty graphs.', function() {
+      var graph = new Graph();
+
+      assert.deepStrictEqual(largestConnectedComponent(graph), []);
+    });
+
+    it('should handle graphs without edges.', function() {
+      var graph = new Graph();
+      addNodesFrom(graph, [1, 2, 3]);
+
+      assert.deepStrictEqual(largestConnectedComponent(graph), ['1']);
+    });
+
+    it('should return the correct components.', function() {
+      var graph = new Graph();
+      addNodesFrom(graph, [1, 2, 3, 4, 5, 6, 7]);
+      graph.addEdge(1, 2);
+      graph.addEdge(2, 3);
+      graph.addEdge(3, 4);
+      graph.addEdge(2, 4);
+
+      graph.addEdge(5, 6);
+
+      var component = largestConnectedComponent(graph);
+      assert.deepStrictEqual(component, ['1', '2', '4', '3']);
+    });
+
+    it('should also work with self loops.', function() {
+      var graph = new Graph();
+      addNodesFrom(graph, [1, 2, 3]);
+      graph.addEdge(1, 2);
+      graph.addEdge(1, 1);
+
+      var component = largestConnectedComponent(graph);
+
+      assert.deepStrictEqual(component, ['1', '2']);
     });
   });
 
@@ -86,14 +133,14 @@ describe('graphology-components', function() {
     it('should handle empty graphs.', function() {
       var graph = new Graph();
 
-      assert.deepEqual(stronglyConnectedComponents(graph), []);
+      assert.deepStrictEqual(stronglyConnectedComponents(graph), []);
     });
 
     it('should handle graphs without edges.', function() {
       var graph = new Graph();
       addNodesFrom(graph, [1, 2, 3]);
 
-      assert.deepEqual(stronglyConnectedComponents(graph), [[1], [2], [3]]);
+      assert.deepStrictEqual(stronglyConnectedComponents(graph), [['1'], ['2'], ['3']]);
     });
 
     it('should throw if the graph is undirected', function() {
@@ -117,7 +164,7 @@ describe('graphology-components', function() {
 
       var components = stronglyConnectedComponents(graph);
       sortComponents(components);
-      assert.deepEqual(components, [['1'], ['2', '3', '4']]);
+      assert.deepStrictEqual(components, [['1'], ['2', '3', '4']]);
     });
 
     it('should return the correct components. (simple directed graph)', function() {
@@ -130,7 +177,7 @@ describe('graphology-components', function() {
 
       var components = stronglyConnectedComponents(graph);
       sortComponents(components);
-      assert.deepEqual(components, [['1', '2'], ['3']]);
+      assert.deepStrictEqual(components, [['1', '2'], ['3']]);
     });
 
     it('should return the correct components. (disjointed components)', function() {
@@ -153,7 +200,7 @@ describe('graphology-components', function() {
       var components = stronglyConnectedComponents(graph);
       sortComponents(components);
 
-      assert.deepEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
+      assert.deepStrictEqual(components, [['1', '2', '3'], ['4', '5'], ['6', '7', '8']]);
     });
   });
 });

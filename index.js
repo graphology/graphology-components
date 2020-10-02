@@ -8,7 +8,8 @@ var isGraph = require('graphology-utils/is-graph');
 var extend = require('@yomguithereal/helpers/extend');
 
 /**
- * Function returning a list of connected components.
+ * Function returning a list of a graph's connected components as arrays
+ * of node keys.
  *
  * @param  {Graph} graph - Target graph.
  * @return {array}
@@ -59,6 +60,59 @@ exports.connectedComponents = function(graph) {
   }
 
   return components;
+};
+
+/**
+ * Function returning the largest component of the given graph.
+ *
+ * @param  {Graph} graph - Target graph.
+ * @return {array}
+ */
+exports.largestConnectedComponent = function(graph) {
+  if (!isGraph(graph))
+    throw new Error('graphology-components: the given graph is not a valid graphology instance.');
+
+  if (!graph.order)
+    return [];
+
+  if (!graph.size)
+    return [graph.nodes()[0]];
+
+  var seen = new Set();
+  var largestComponent = [];
+  var stack = [];
+  var component;
+
+  var nodes = graph.nodes();
+
+  var i, l, node, n1;
+
+  for (i = 0, l = nodes.length; i < l; i++) {
+    node = nodes[i];
+
+    if (seen.has(node))
+      continue;
+
+    component = [];
+    stack.push(node);
+
+    while (stack.length !== 0) {
+      n1 = stack.pop();
+
+      if (seen.has(n1))
+        continue;
+
+      seen.add(n1);
+      component.push(n1);
+
+      extend(stack, graph.neighbors(n1));
+    }
+
+    if (component.length > largestComponent.length)
+      largestComponent = component;
+  }
+
+  return largestComponent;
 };
 
 /**
