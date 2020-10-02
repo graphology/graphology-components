@@ -117,7 +117,7 @@ exports.largestConnectedComponent = function(graph) {
     // Early exit condition
     // NOTE: could be done each time we traverse a node but would complexify
     remaining = order - seen.size;
-    if (largestComponent.length > Math.ceil(remaining / 2))
+    if (largestComponent.length > remaining)
       return largestComponent;
   }
 
