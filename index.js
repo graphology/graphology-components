@@ -19,43 +19,44 @@ exports.connectedComponents = function(graph) {
   if (!graph.order)
     return [];
 
-  var components = [],
-      nodes = graph.nodes(),
-      i, l;
+  if (!graph.size)
+    return graph.nodes().map(function(node) {
+      return [node];
+    });
 
-  if (!graph.size) {
-    for (i = 0, l = nodes.length; i < l; i++) {
-      components.push([nodes[i]]);
-    }
-    return components;
-  }
+  var seen = new Set();
+  var components = [];
+  var stack = [];
+  var component;
 
-  var component,
-      stack = [],
-      node,
-      neighbor,
-      visited = new Set();
+  var nodes = graph.nodes();
+
+  var i, l, node, n1;
 
   for (i = 0, l = nodes.length; i < l; i++) {
     node = nodes[i];
 
-    if (!visited.has(node)) {
-      visited.add(node);
-      component = [node];
-      components.push(component);
+    if (seen.has(node))
+      continue;
 
-      stack.push.apply(stack, graph.neighbors(node));
+    component = [];
+    stack.push(node);
 
-      while (stack.length) {
-        neighbor = stack.pop();
+    while (stack.length !== 0) {
+      n1 = stack.pop();
 
-        if (!visited.has(neighbor)) {
-          visited.add(neighbor);
-          component.push(neighbor);
-          stack.push.apply(stack, graph.neighbors(neighbor));
-        }
-      }
+      if (seen.has(n1))
+        continue;
+
+      seen.add(n1);
+      component.push(n1);
+
+      graph.forEachNeighbor(n1, function(n2) {
+        stack.push(n2);
+      });
     }
+
+    components.push(component);
   }
 
   return components;
