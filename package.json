@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "@yomguithereal/helpers": "^1.0.1",
     "graphology-types": "^0.17.0",
     "graphology-utils": "^1.7.0"
   }

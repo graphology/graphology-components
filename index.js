@@ -5,6 +5,7 @@
  * Basic connected components-related functions.
  */
 var isGraph = require('graphology-utils/is-graph');
+var extend = require('@yomguithereal/helpers/extend');
 
 /**
  * Function returning a list of connected components.
@@ -51,9 +52,7 @@ exports.connectedComponents = function(graph) {
       seen.add(n1);
       component.push(n1);
 
-      graph.forEachNeighbor(n1, function(n2) {
-        stack.push(n2);
-      });
+      extend(stack, graph.neighbors(n1));
     }
 
     components.push(component);
